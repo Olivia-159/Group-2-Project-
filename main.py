@@ -5,7 +5,7 @@ SCREEN_WIDTH = 800
 
 pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Base Page Example")
+pygame.display.set_caption("Group 2 - Online Auction")
 
 # Colors
 WHITE = (255, 255, 255)
@@ -15,7 +15,7 @@ DARK_BLUE = (0, 80, 200)
 
 # Font
 font = pygame.font.Font(None, 36)
-text = font.render("Welcome to Auction App", True, BLACK)
+text = font.render("Online Auction", True, BLACK)
 
 # Button rectangle
 button_rect = pygame.Rect(300, 200, 200, 50)
@@ -40,7 +40,7 @@ while running:
     mouse_pos = pygame.mouse.get_pos()
     button_color = DARK_BLUE if button_rect.collidepoint(mouse_pos) else BLUE
     pygame.draw.rect(screen, button_color, button_rect)
-    button_text = font.render("Test Button", True, WHITE)
+    button_text = font.render("Item", True, WHITE)
     screen.blit(button_text, (330, 210))
     
     pygame.display.flip()
