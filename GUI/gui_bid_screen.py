@@ -40,5 +40,3 @@ def bid_screen():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if back_button_rect.collidepoint(mouse_pos):
                     running = False
-
-    pygame.quit()
