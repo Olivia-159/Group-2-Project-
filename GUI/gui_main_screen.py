@@ -1,7 +1,8 @@
+from cProfile import label
+from cmath import rect
+from operator import index
 import pygame
-
-# List of bidders 
-bidders = []
+import gui_bid_screen  # import from bid screen module
 
 # List of auction items (9 items for 3x3 grid)
 auction_items = [
@@ -23,15 +24,21 @@ pygame.init()
 SCREEN_WIDTH = 750
 SCREEN_HEIGHT = 600
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Group 2 - Auction Zone")
+pygame.display.set_caption("Group 2 - Auction Zone Main Screen")
 
 # Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 LIGHT_GRAY = (200, 200, 200)
+DARK_GRAY = (100, 100, 100)
 PURPLE = (138, 43, 226)
 PINK = (255, 105, 180)
 DARK_BG = (30, 30, 50)
+GREEN = (50, 205, 50)
+RED = (255, 80, 80)
+CARD_BG = (60, 60, 90)
+INPUT_BG = (50, 50, 70)
+
 
 # Font
 font = pygame.font.Font(None, 26)
@@ -50,9 +57,9 @@ START_Y = 100
 # Main loop
 running = True
 while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+
+    # Get mouse position
+    mouse_pos = pygame.mouse.get_pos()
 
     # Fill background
     screen.fill(DARK_BG)
@@ -74,7 +81,11 @@ while running:
         
         # Card background
         card_rect = pygame.Rect(x, y, CARD_WIDTH, CARD_HEIGHT)
-        card_color = (60, 60, 90)
+        
+        # Check if the mouse is over the card
+        is_hovering = card_rect.collidepoint(mouse_pos)
+        card_color = (100, 100, 150) if is_hovering else (CARD_BG)  # Lighter when hovered
+
         pygame.draw.rect(screen, card_color, card_rect, border_radius=12)
         pygame.draw.rect(screen, PURPLE, card_rect, 2, border_radius=12)
         
@@ -91,8 +102,27 @@ while running:
         screen.blit(price_label, (x + 10, y + 80))
         
         # Price value
-        price_text = font.render(f"${item['starting_price']:.2f}", True, PINK)
+        price_text = font.render(f"£{item['starting_price']:.2f}", True, PINK)
         screen.blit(price_text, (x + 10, y + 100))
+
+    # Event handling when clicking on an item
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            # Check if click is on any item card
+            for i, item in enumerate(auction_items):
+                if i >= 9:
+                    break
+                row = i // COLS
+                col = i % COLS
+                x = MARGIN_X + col * (CARD_WIDTH + MARGIN_X)
+                y = START_Y + row * (CARD_HEIGHT + MARGIN_Y)
+                card_rect = pygame.Rect(x, y, CARD_WIDTH, CARD_HEIGHT)
+                
+                if card_rect.collidepoint(mouse_pos):
+                    gui_bid_screen.bid_screen()
+                    break
 
     pygame.display.flip()
 
