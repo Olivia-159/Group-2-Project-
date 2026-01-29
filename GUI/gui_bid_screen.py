@@ -37,6 +37,8 @@ def bid_screen():
     BACK_BUTTON_X = 20
     BACK_BUTTON_Y = 20
 
+
+
     # Grid settings
     COLS = 1
     ROWS = 1
@@ -45,6 +47,12 @@ def bid_screen():
     MARGIN_X = 25
     MARGIN_Y = 100
     START_Y = 50
+
+    #Bid button settings
+    BID_BUTTON_WIDTH = 60
+    BID_BUTTON_HEIGHT = 40
+    BID_BUTTON_X = MARGIN_X + 10
+    BID_BUTTON_Y = MARGIN_Y + 270
 
     running = True
     while running:
@@ -63,6 +71,16 @@ def bid_screen():
         small_font = pygame.font.Font(None, 28)
         back_text = small_font.render("Back", True, (WHITE))
         screen.blit(back_text, (BACK_BUTTON_X + 10, BACK_BUTTON_Y + 8))
+
+        #Draw bid button 
+        bid_button_rect = pygame.Rect(BID_BUTTON_X, BID_BUTTON_Y, BID_BUTTON_WIDTH, BID_BUTTON_HEIGHT)
+        bid_button_color = (50, 150, 50) if bid_button_rect.collidepoint(mouse_pos) else (GREEN)
+        pygame.draw.rect(screen, bid_button_color, bid_button_rect, border_radius=12)
+        pygame.draw.rect(screen, (100, 100, 150), bid_button_rect, 2, border_radius=12)
+
+        bid_text = small_font.render("Bid", True, (255,255,255))
+        small_font = pygame.font.Font(None,25)
+        screen.blit(bid_text, (BID_BUTTON_X + 15 , BID_BUTTON_Y + 11))
 
         # Draw item card
         card_rect = pygame.Rect(MARGIN_X, MARGIN_Y, CARD_WIDTH, CARD_HEIGHT)
