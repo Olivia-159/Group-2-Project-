@@ -16,6 +16,7 @@ def bid_screen():
     font = pygame.font.Font(None, 26)
     small_font = pygame.font.Font(None, 20)
     title_font = pygame.font.Font(None, 48)
+    med_font = pygame.font.Font(None, 34)
 
     # Colors
     WHITE = (255, 255, 255)
@@ -32,8 +33,8 @@ def bid_screen():
     CARD_GRAY = (100, 100, 150)
 
     # Back button settings
-    BACK_BUTTON_WIDTH = 67
-    BACK_BUTTON_HEIGHT = 36
+    BACK_BUTTON_WIDTH = 100
+    BACK_BUTTON_HEIGHT = 48
     BACK_BUTTON_X = 20
     BACK_BUTTON_Y = 20
 
@@ -45,6 +46,12 @@ def bid_screen():
     MARGIN_X = 25
     MARGIN_Y = 100
     START_Y = 50
+
+    #Bid button settings
+    BID_BUTTON_WIDTH = 100
+    BID_BUTTON_HEIGHT = 48
+    BID_BUTTON_X = MARGIN_X # + 570
+    BID_BUTTON_Y = MARGIN_Y + 180
 
     running = True
     while running:
@@ -60,42 +67,50 @@ def bid_screen():
         pygame.draw.rect(screen, back_button_color, back_button_rect, border_radius=8)
         pygame.draw.rect(screen, (BLACK), back_button_rect, 2, border_radius=8)
 
-        small_font = pygame.font.Font(None, 28)
-        back_text = small_font.render("Back", True, (WHITE))
-        screen.blit(back_text, (BACK_BUTTON_X + 10, BACK_BUTTON_Y + 8))
+        back_text = title_font.render("Back", True, (WHITE))
+        screen.blit(back_text, (BACK_BUTTON_X + 11, BACK_BUTTON_Y + 9))
+
+        #Draw bid button 
+        bid_button_rect = pygame.Rect(BID_BUTTON_X, BID_BUTTON_Y, BID_BUTTON_WIDTH, BID_BUTTON_HEIGHT)
+        bid_button_color = (50, 150, 50) if bid_button_rect.collidepoint(mouse_pos) else (GREEN)
+        pygame.draw.rect(screen, bid_button_color, bid_button_rect, border_radius=12)
+        pygame.draw.rect(screen, BLACK , bid_button_rect, 2, border_radius=12)
+
+        bid_text = title_font.render("BID", True, (255,255,255))
+        screen.blit(bid_text, (BID_BUTTON_X + 22 , BID_BUTTON_Y + 10))
 
         # Draw item card
-        card_rect = pygame.Rect(MARGIN_X, MARGIN_Y, CARD_WIDTH, CARD_HEIGHT)
-        is_hovering = card_rect.collidepoint(mouse_pos)
-        x = MARGIN_X + COLS * (CARD_WIDTH + MARGIN_X)
-        y = START_Y + ROWS * (CARD_HEIGHT + MARGIN_Y)
-        card_color = (CARD_GRAY) if is_hovering else (CARD_BG)  # Lighter when hovered
-        pygame.draw.rect(screen, card_color, card_rect, border_radius=12)
-        pygame.draw.rect(screen, PURPLE, card_rect, 2, border_radius=12)
+        # card_rect = pygame.Rect(MARGIN_X, MARGIN_Y, CARD_WIDTH, CARD_HEIGHT)
+        # is_hovering = card_rect.collidepoint(mouse_pos)
+        # x = MARGIN_X + COLS * (CARD_WIDTH + MARGIN_X)
+        # y = START_Y + ROWS * (CARD_HEIGHT + MARGIN_Y)
+        # card_color = (CARD_GRAY) if is_hovering else (CARD_BG)  # Lighter when hovered
+        # pygame.draw.rect(screen, card_color, card_rect, border_radius=12)
+        # pygame.draw.rect(screen, PURPLE, card_rect, 2, border_radius=12)
 
-        small_font = pygame.font.Font(None, 28)
-        card_text = small_font.render("ITEM", True, (WHITE))
-        screen.blit(card_text, (MARGIN_X + 10, MARGIN_Y + 8))
+        # small_font = pygame.font.Font(None, 28)
+        # card_text = font.render("ITEM", True, (WHITE))
+        # screen.blit(card_text, (MARGIN_X + 10, MARGIN_Y + 8))
 
         # Item title description
-        text = small_font.render("Name: ", True, (WHITE))
-        screen.blit(text, (MARGIN_X + 400, MARGIN_Y + 12))
+        text = med_font.render("Name: ", True, (WHITE))
+        screen.blit(text, (MARGIN_X, MARGIN_Y + 8))
 
         # Item description
-        text = small_font.render("Description: ", True, (WHITE))
-        screen.blit(text, (MARGIN_X + 400, MARGIN_Y + 40))
+        text = med_font.render("Description: ", True, (WHITE))
+        screen.blit(text, (MARGIN_X, MARGIN_Y + 39))
 
         # Current highest bid
-        text = small_font.render("Current Highest Bid: ", True, (WHITE))
-        screen.blit(text, (MARGIN_X + 400, MARGIN_Y + 68))
+        text = med_font.render("Current Highest Bid: ", True, (WHITE))
+        screen.blit(text, (MARGIN_X, MARGIN_Y + 68))
 
         # originial price
-        text = small_font.render("Original Price: ", True, (WHITE))
-        screen.blit(text, (MARGIN_X + 400, MARGIN_Y + 96))
+        text = med_font.render("Original Price: ", True, (WHITE))
+        screen.blit(text, (MARGIN_X, MARGIN_Y + 96))
 
         # bid limit
-        text = small_font.render("Bid Limit: ", True, (WHITE))
-        screen.blit(text, (MARGIN_X + 400, MARGIN_Y + 124))
+        text = med_font.render("Bid Limit: ", True, (WHITE))
+        screen.blit(text, (MARGIN_X, MARGIN_Y + 124))
 
 
         pygame.display.flip()
@@ -106,3 +121,4 @@ def bid_screen():
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if back_button_rect.collidepoint(mouse_pos):
                     running = False
+
