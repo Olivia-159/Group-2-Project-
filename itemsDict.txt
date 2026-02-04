@@ -1,0 +1,9 @@
+0,Wireless Headphones,RGB Gaming Edition,50.00
+1,Gaming Controller,Glow in the dark!,35.00
+2,Phone Ring Light,Perfect for TikToks!,15.00
+3,LED Backpack,Changes colors!,40.00
+4,Mini Skateboard,Fingerboard pro set,10.00 
+5,Bubble Tea Kit,Make your own boba!,20.00
+6,Karaoke Mic, Bluetooth speaker,25.00
+7,LED Strip Lights,16 million colors!,18.00
+8,Portable Projector,Movie nights!,60.00
