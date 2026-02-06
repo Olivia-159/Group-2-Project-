@@ -1,0 +1,153 @@
+
+import pygame
+import bidscreen as bidscreen  # import from bid screen module
+
+
+def id_screen():
+    pygame.init()
+    SCREEN_WIDTH, SCREEN_HEIGHT = 750, 600
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    pygame.display.set_caption("Place Your Bid")
+
+    font = pygame.font.Font(None, 36)
+
+    # Fonts
+    font = pygame.font.Font(None, 26)
+    small_font = pygame.font.Font(None, 20)
+    title_font = pygame.font.Font(None, 48)
+    med_font = pygame.font.Font(None, 34)
+
+    # Colors
+    WHITE = (255, 255, 255)
+    BLACK = (0, 0, 0)
+    LIGHT_GRAY = (200, 200, 200)
+    DARK_GRAY = (100, 100, 100)
+    PURPLE = (138, 43, 226)
+    PINK = (255, 105, 180)
+    DARK_BG = (30, 30, 50)
+    GREEN = (50, 205, 50)
+    RED = (255, 80, 80)
+    CARD_BG = (60, 60, 90)
+    INPUT_BG = (50, 50, 70)
+    CARD_GRAY = (100, 100, 150)
+
+    # Grid settings
+    COLS = 1
+    ROWS = 1
+    CARD_WIDTH = 385
+    CARD_HEIGHT = 245
+    MARGIN_X = 25
+    MARGIN_Y = 100
+    START_Y = 50
+
+    #Item Id button settings
+    ITEM_ID_BUTTON_WIDTH = 172
+    ITEM_ID_BUTTON_HEIGHT = 48
+    ITEM_ID_BUTTON_X = MARGIN_X  + 100
+    ITEM_ID_BUTTON_Y = MARGIN_Y + 100
+
+    #User Id button settings
+    USER_ID_BUTTON_WIDTH = 175
+    USER_ID_BUTTON_HEIGHT = 48
+    USER_ID_BUTTON_X = MARGIN_X  + 400
+    USER_ID_BUTTON_Y = MARGIN_Y + 100
+
+    # Back button settings
+    BACK_BUTTON_WIDTH = 80
+    BACK_BUTTON_HEIGHT = 40
+    BACK_BUTTON_X = 20
+    BACK_BUTTON_Y = 20
+
+    #Enter button settings 
+    ENTER_BUTTON_WIDTH = 120
+    ENTER_BUTTON_HEIGHT = 48
+    ENTER_BUTTON_X = MARGIN_X + 270
+    ENTER_BUTTON_Y = MARGIN_Y + 350
+
+    user_item_text = ''
+    #user_id_text = ''
+
+    running = True
+    while running:
+        mouse_pos = pygame.mouse.get_pos()
+        
+        screen.fill((DARK_BG))
+
+        #Draw item id button 
+        item_id_rect = pygame.Rect(ITEM_ID_BUTTON_X, ITEM_ID_BUTTON_Y, ITEM_ID_BUTTON_WIDTH, ITEM_ID_BUTTON_HEIGHT)
+        item_id_color = (150,150,150)
+        pygame.draw.rect(screen, item_id_color, item_id_rect, border_radius=12)
+        pygame.draw.rect(screen, BLACK , item_id_rect, 2, border_radius=12)
+
+        ID_text = med_font.render("Enter Item ID:", True, (255,255,255))
+        screen.blit(ID_text, (ITEM_ID_BUTTON_X + 10  , ITEM_ID_BUTTON_Y + 10 ))
+
+        #Draw item id text box
+        item_id_textbox_rect = pygame.Rect(ITEM_ID_BUTTON_X, ITEM_ID_BUTTON_Y + 70, ITEM_ID_BUTTON_WIDTH, ITEM_ID_BUTTON_HEIGHT)
+        item_id_textbox_color = (WHITE) #if item_id_textbox_rect.collidepoint(mouse_pos) else ()
+        pygame.draw.rect(screen, item_id_textbox_color, item_id_textbox_rect, border_radius=12)
+        pygame.draw.rect(screen, BLACK , item_id_textbox_rect, 2, border_radius=12)
+
+        text_item_surface = med_font.render(user_item_text,True,BLACK)
+        screen.blit(text_item_surface,(ITEM_ID_BUTTON_X + 5, ITEM_ID_BUTTON_Y + 80))
+        
+        #Draw user id button 
+        user_id_rect = pygame.Rect(USER_ID_BUTTON_X, USER_ID_BUTTON_Y, USER_ID_BUTTON_WIDTH, USER_ID_BUTTON_HEIGHT)
+        user_id_color = (150,150,150) 
+        pygame.draw.rect(screen, user_id_color, user_id_rect, border_radius=12)
+        pygame.draw.rect(screen, BLACK , user_id_rect, 2, border_radius=12)
+
+        ID_text = med_font.render("Enter User ID:", True, (255,255,255))
+        screen.blit(ID_text, (USER_ID_BUTTON_X + 10  , USER_ID_BUTTON_Y + 10 ))
+
+        #Draw user id text box
+        user_id_textbox_rect = pygame.Rect(USER_ID_BUTTON_X, USER_ID_BUTTON_Y + 70, USER_ID_BUTTON_WIDTH, USER_ID_BUTTON_HEIGHT)
+        user_id_textbox_color = (WHITE)# if user_id_textbox_rect.collidepoint(mouse_pos) else (RED)
+        pygame.draw.rect(screen, user_id_textbox_color, user_id_textbox_rect, border_radius=12)
+        pygame.draw.rect(screen, BLACK , user_id_textbox_rect, 2, border_radius=12)
+
+        #text_id_surface = med_font.render(user_id_text,True,BLACK)
+        #screen.blit(text_id_surface,(USER_ID_BUTTON_X + 5, USER_ID_BUTTON_Y + 80))
+
+        # Draw back button
+        back_button_rect = pygame.Rect(BACK_BUTTON_X, BACK_BUTTON_Y, BACK_BUTTON_WIDTH, BACK_BUTTON_HEIGHT)
+        back_button_color = (205, 92, 92, 255) if back_button_rect.collidepoint(mouse_pos) else (RED)
+        pygame.draw.rect(screen, back_button_color, back_button_rect, border_radius=8)
+        pygame.draw.rect(screen, (BLACK), back_button_rect, 2, border_radius=8)
+
+        back_text = med_font.render("Back", True, (WHITE))
+        screen.blit(back_text, (BACK_BUTTON_X + 11, BACK_BUTTON_Y + 9))
+
+        # Draw enter button
+        enter_button_rect = pygame.Rect(ENTER_BUTTON_X, ENTER_BUTTON_Y, ENTER_BUTTON_WIDTH, ENTER_BUTTON_HEIGHT)
+        enter_button_color = (50, 150, 50) if enter_button_rect.collidepoint(mouse_pos) else (GREEN)
+        pygame.draw.rect(screen, enter_button_color, enter_button_rect, border_radius=12)
+        pygame.draw.rect(screen, BLACK , enter_button_rect, 2, border_radius=12)
+
+        enter_text = title_font.render("Enter", True, (255,255,255))
+        screen.blit(enter_text, (ENTER_BUTTON_X + 15 , ENTER_BUTTON_Y + 10))
+
+
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if back_button_rect.collidepoint(mouse_pos):
+                    running = False
+
+                if enter_button_rect.collidepoint(mouse_pos):
+                    bidscreen.bid_screen()
+                    break
+            
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_BACKSPACE:
+                    user_item_text = user_item_text[:-1]
+                else:
+                    user_item_text += event.unicode
+             
+                    
+
+                    
+
