@@ -20,6 +20,7 @@ auction_items = [
 ]
 
 
+
 # Initialize pygame
 pygame.init()
 
