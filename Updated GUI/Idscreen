@@ -1,13 +1,36 @@
 
 import pygame
 import bidscreen as bidscreen  # import from bid screen module
+from classDef import Item, Offer 
+import objArrays 
 
+
+
+
+
+
+#read file, each line becomes an object, and is added to array
+itemsArr = []
+with open('itemsDict.txt') as file:
+    for line in file:
+        linearr = line.strip().split(',')
+        if len(linearr) == 4:
+            # create object- would love to pass ID as 0, then update to match index in array later (flexible to add items)
+            id = int(linearr[0])
+            name = str(linearr[1])
+            desc = str(linearr[2])
+            bp = float(linearr[3])
+            newItem = Item(id, name, desc, bp) 
+            itemsArr.append(newItem)
+
+global item_id_user
+item_id_user =0
 
 def id_screen():
     pygame.init()
     SCREEN_WIDTH, SCREEN_HEIGHT = 750, 600
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    pygame.display.set_caption("Place Your Bid")
+    pygame.display.set_caption("Enter ID")
 
     font = pygame.font.Font(None, 36)
 
@@ -64,8 +87,12 @@ def id_screen():
     ENTER_BUTTON_X = MARGIN_X + 270
     ENTER_BUTTON_Y = MARGIN_Y + 350
 
-    user_item_text = ''
+
+    
+    user_item_text = ""
     #user_id_text = ''
+    
+
 
     running = True
     while running:
@@ -100,7 +127,7 @@ def id_screen():
         ID_text = med_font.render("Enter User ID:", True, (255,255,255))
         screen.blit(ID_text, (USER_ID_BUTTON_X + 10  , USER_ID_BUTTON_Y + 10 ))
 
-        #Draw user id text box
+        #Draw user id text box (currently isn't useable)
         user_id_textbox_rect = pygame.Rect(USER_ID_BUTTON_X, USER_ID_BUTTON_Y + 70, USER_ID_BUTTON_WIDTH, USER_ID_BUTTON_HEIGHT)
         user_id_textbox_color = (WHITE)# if user_id_textbox_rect.collidepoint(mouse_pos) else (RED)
         pygame.draw.rect(screen, user_id_textbox_color, user_id_textbox_rect, border_radius=12)
@@ -128,6 +155,8 @@ def id_screen():
         screen.blit(enter_text, (ENTER_BUTTON_X + 15 , ENTER_BUTTON_Y + 10))
 
 
+        #print(item_id_user)
+
         pygame.display.flip()
 
         for event in pygame.event.get():
@@ -146,7 +175,13 @@ def id_screen():
                     user_item_text = user_item_text[:-1]
                 else:
                     user_item_text += event.unicode
-             
+                    if user_item_text.isdigit():
+                        item_id_user = int(user_item_text) 
+
+
+
+
+                    
                     
 
                     
