@@ -1,5 +1,26 @@
+
 import pygame
 import endscreen as endscreen
+from classDef import Item, Offer 
+import idscreen
+
+
+
+
+#read file, each line becomes an object, and is added to array
+itemsArr = []
+with open('itemsDict.txt') as file:
+    for line in file:
+        linearr = line.strip().split(',')
+        if len(linearr) == 4:
+            # create object- would love to pass ID as 0, then update to match index in array later (flexible to add items)
+            id = int(linearr[0])
+            name = str(linearr[1])
+            desc = str(linearr[2])
+            bp = float(linearr[3])
+            newItem = Item(id, name, desc, bp) 
+            itemsArr.append(newItem)
+
 
 
 def bid_screen():
@@ -54,7 +75,9 @@ def bid_screen():
     ENTER_BUTTON_X = MARGIN_X + 150
     ENTER_BUTTON_Y = MARGIN_Y + 240
 
-    user_text =''
+    user_bid_text =''
+    item_bid_user = 0
+   
 
     running = True
     while running:
@@ -88,7 +111,7 @@ def bid_screen():
         pygame.draw.rect(screen, user_id_textbox_color, user_id_textbox_rect, border_radius=12)
         pygame.draw.rect(screen, BLACK , user_id_textbox_rect, 2, border_radius=12)
 
-        text_surface = med_font.render(user_text,True,BLACK)
+        text_surface = med_font.render(user_bid_text,True,BLACK)
         screen.blit(text_surface,(ENTER_BUTTON_X - 145 , ENTER_BUTTON_Y + 5))
 
         # Bid amount description
@@ -116,6 +139,29 @@ def bid_screen():
         screen.blit(text, (MARGIN_X, MARGIN_Y + 124))
 
 
+        #item_id_user = 5
+        for i in range(0+idscreen.item_id_user,idscreen.item_id_user+1):
+        
+            #text = med_font.render(itemsArr[i].get, True, (WHITE))
+            #screen.blit(text, (MARGIN_X, MARGIN_Y + 200))
+            
+            text = med_font.render(str(itemsArr[i].getName()), True, (WHITE))
+            screen.blit(text, (MARGIN_X + 80 , MARGIN_Y + 8))
+            
+            text = med_font.render(str(itemsArr[i].getDescription()), True, (WHITE))
+            screen.blit(text, (MARGIN_X + 150, MARGIN_Y + 39))
+            
+            text = med_font.render(str(itemsArr[i].getCWP()), True, (WHITE))
+            screen.blit(text, (MARGIN_X + 240, MARGIN_Y + 68))
+            
+            text = med_font.render(str(itemsArr[i].getBasePrice()), True, (WHITE))
+            screen.blit(text, (MARGIN_X + 170, MARGIN_Y + 96))
+            
+            text = med_font.render(str(itemsArr[i].getBids()), True, (WHITE))
+            screen.blit(text, (MARGIN_X + 120, MARGIN_Y + 124))
+        
+        
+        
         pygame.display.flip()
 
         for event in pygame.event.get():
@@ -127,16 +173,23 @@ def bid_screen():
                     
             if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_BACKSPACE:
-                         user_text = user_text[:-1]
+                         user_bid_text = user_bid_text[:-1]
                     else:
-                        user_text += event.unicode
-            
+                        user_bid_text += event.unicode
+                        if user_bid_text.isdigit():
+                            item_bid_user = float(user_bid_text) 
+
             if event.type == pygame.MOUSEBUTTONDOWN:
-                 if enter_button_rect.collidepoint(mouse_pos):
-                    print(float(user_text))
-                    endscreen.end_screen()
-                    break
-                    
+                if enter_button_rect.collidepoint(mouse_pos):
+                    if item_bid_user > itemsArr[i].currentWinPrice:
+                        itemsArr[i].currentWinPrice = item_bid_user
+                        itemsArr[i].bids = itemsArr[i].bids + 1
+                        print(float(user_bid_text))
+                        endscreen.end_screen()
+                        break
+                            
+
+
             
 
                 
